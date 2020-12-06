@@ -121,7 +121,7 @@ class Matcher():
         This does the main work of finding matching n-gram sequences between
         the texts.
         """
-        sequence = SequenceMatcher(None,self.textAgrams,self.textBgrams)
+        sequence = SequenceMatcher(None, self.textAgrams, self.textBgrams)
         matchingBlocks = sequence.get_matching_blocks()
 
         # Only return the matching sequences that are higher than the
@@ -141,7 +141,7 @@ class Matcher():
         after = self.getTokensText(text, start+length, context)
         match = colored(match, 'red')
         out = " ".join([before, match, after])
-        out = out.replace('\n', ' ') # Replace newlines with spaces.
+        out = out.replace('\n', ' ')  # Replace newlines with spaces.
         out = re.sub('\s+', ' ', out)
         return out
 
@@ -240,7 +240,7 @@ class Matcher():
             wordB = self.textBgrams[(match.b - 1)][0]
             if self.edit_ratio(wordA, wordB) < cutoff:
                 print('Extending match backwards with words: %s %s' %
-                     (wordA, wordB) )
+                      (wordA, wordB) )
                 match.a -= 1
                 match.b -= 1
                 match.sizeA += 1
@@ -257,7 +257,7 @@ class Matcher():
             wordB = self.textBgrams[idxB][-1]
             if self.edit_ratio(wordA, wordB) < cutoff:
                 print('Extending match forwards with words: %s %s' %
-                     (wordA, wordB) )
+                      (wordA, wordB))
                 match.sizeA += 1
                 match.sizeB += 1
                 match.extendedForwards += 1
@@ -270,12 +270,13 @@ class Matcher():
 
         return self.healed_matches
 
-    def match(self):
+    def match(self, suppressPrint=True):
         """ Gets and prints all matches. """
 
         for num, match in enumerate(self.extended_matches):
             # print('match: ', match)
             out = self.getMatch(match)
+        if not suppressPrint:
             print('\n')
             print('match %s:' % (num+1), flush=True)
             print(out, flush=True)
